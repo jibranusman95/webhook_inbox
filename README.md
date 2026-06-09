@@ -308,6 +308,7 @@ bundle exec rubocop
 | [turbo_presence](https://github.com/jibranusman95/turbo_presence) | Figma-style live cursors, avatar stacks, and typing indicators for Rails — one line |
 | [http_decoy](https://github.com/jibranusman95/http_decoy) | A real Rack server that runs inside your RSpec tests — test HTTP contracts, not stubs |
 | [promptscrub](https://github.com/jibranusman95/promptscrub) | PII redaction middleware for LLM calls |
+| [agent_jail](https://github.com/jibranusman95/agent_jail) | Fork-based sandbox for LLM tool calls — timeout, memory limit, and filesystem restrictions |
 
 ---
 
