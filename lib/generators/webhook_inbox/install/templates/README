@@ -1,0 +1,33 @@
+===============================================================================
+
+  WebhookInbox installed!
+
+  Next steps:
+
+  1. Run the migration:
+     rails db:migrate
+
+  2. Configure your handlers in config/initializers/webhook_inbox.rb
+
+  3. Add a controller for each provider:
+
+     class StripeWebhooksController < ApplicationController
+       include WebhookInbox::Receiver
+       receive_from :stripe, secret: -> { ENV["STRIPE_WEBHOOK_SECRET"] }
+
+       def create
+         receive_webhook!
+       end
+     end
+
+  4. Add the route:
+
+     # config/routes.rb
+     post "/webhooks/stripe", to: "stripe_webhooks#create"
+
+     # Optional dashboard:
+     mount WebhookInbox::Engine => "/webhook_inbox"
+
+  5. Set STRIPE_WEBHOOK_SECRET in your environment.
+
+===============================================================================

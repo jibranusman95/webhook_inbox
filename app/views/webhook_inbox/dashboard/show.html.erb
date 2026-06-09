@@ -1,0 +1,54 @@
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+  <%= link_to "← All Events", webhook_inbox.dashboard_path, class: "wi-btn wi-btn-back" %>
+  <%= button_to "Replay", webhook_inbox.replay_event_path(@event), method: :post, class: "wi-btn wi-btn-replay" %>
+</div>
+
+<div class="wi-detail-card">
+  <div class="wi-detail-row">
+    <span class="wi-detail-label">Status</span>
+    <%= status_badge(@event.status) %>
+  </div>
+  <div class="wi-detail-row">
+    <span class="wi-detail-label">Provider</span>
+    <span class="wi-mono"><%= @event.provider %></span>
+  </div>
+  <div class="wi-detail-row">
+    <span class="wi-detail-label">Event Type</span>
+    <span class="wi-mono"><%= @event.event_type %></span>
+  </div>
+  <div class="wi-detail-row">
+    <span class="wi-detail-label">Event ID</span>
+    <span class="wi-mono"><%= @event.event_id %></span>
+  </div>
+  <div class="wi-detail-row">
+    <span class="wi-detail-label">Attempts</span>
+    <span><%= @event.attempts %></span>
+  </div>
+  <div class="wi-detail-row">
+    <span class="wi-detail-label">Received</span>
+    <span><%= @event.created_at.strftime("%Y-%m-%d %H:%M:%S UTC") %></span>
+  </div>
+  <% if @event.processed_at %>
+    <div class="wi-detail-row">
+      <span class="wi-detail-label">Processed At</span>
+      <span><%= @event.processed_at.strftime("%Y-%m-%d %H:%M:%S UTC") %></span>
+    </div>
+  <% end %>
+
+  <% if @event.error_message.present? %>
+    <div style="margin-top:16px;">
+      <span class="wi-detail-label">Error</span>
+      <div class="wi-error"><%= @event.error_message %></div>
+    </div>
+  <% end %>
+
+  <div style="margin-top:20px;">
+    <div class="wi-detail-label" style="margin-bottom:8px;">Payload</div>
+    <% begin %>
+      <% pretty = JSON.pretty_generate(@event.parsed_payload) %>
+    <% rescue %>
+      <% pretty = @event.payload.to_s %>
+    <% end %>
+    <pre><%= pretty %></pre>
+  </div>
+</div>

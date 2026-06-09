@@ -1,0 +1,61 @@
+<div class="wi-stats">
+  <% total = @status_counts.values.sum %>
+  <div class="wi-stat">
+    <div class="wi-stat-label">Total</div>
+    <div class="wi-stat-value"><%= total %></div>
+  </div>
+  <% %w[pending processing processed failed].each do |s| %>
+    <div class="wi-stat">
+      <div class="wi-stat-label"><%= s.capitalize %></div>
+      <div class="wi-stat-value"><%= @status_counts[s] || 0 %></div>
+    </div>
+  <% end %>
+</div>
+
+<%= form_with url: webhook_inbox.dashboard_path, method: :get, local: true, class: "wi-filters" do |f| %>
+  <label>Status</label>
+  <%= f.select :status,
+        [["All", ""], *%w[pending processing processed failed].map { |s| [s.capitalize, s] }],
+        { selected: params[:status] },
+        { onChange: "this.form.submit()" } %>
+  <label>Provider</label>
+  <%= f.select :provider,
+        [["All", ""], *@providers.map { |p| [p.capitalize, p] }],
+        { selected: params[:provider] },
+        { onChange: "this.form.submit()" } %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th>Provider</th>
+      <th>Event Type</th>
+      <th>Event ID</th>
+      <th>Attempts</th>
+      <th>Received</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @events.empty? %>
+      <tr>
+        <td colspan="7" style="text-align:center; color:#94a3b8; padding:32px;">No events yet.</td>
+      </tr>
+    <% else %>
+      <% @events.each do |event| %>
+        <tr>
+          <td><%= status_badge(event.status) %></td>
+          <td><span class="wi-mono"><%= event.provider %></span></td>
+          <td><span class="wi-mono"><%= event.event_type %></span></td>
+          <td><span class="wi-mono" title="<%= event.event_id %>"><%= event.event_id&.truncate(24) %></span></td>
+          <td><%= event.attempts %></td>
+          <td><span title="<%= event.created_at %>"><%= event.created_at.strftime("%b %d %H:%M:%S") %></span></td>
+          <td>
+            <%= link_to "View", webhook_inbox.event_path(event), class: "wi-btn wi-btn-back" %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
