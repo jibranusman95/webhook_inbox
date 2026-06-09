@@ -81,7 +81,7 @@ RSpec.describe WebhookInbox::Providers::Stripe do
     end
 
     it "raises SignatureError when body has been tampered with" do
-      tampered = raw_body + "extra"
+      tampered = "#{raw_body}extra"
       expect { provider.verify!(tampered, fake_request, secret: secret) }
         .to raise_error(WebhookInbox::SignatureError)
     end

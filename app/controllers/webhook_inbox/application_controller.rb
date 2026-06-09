@@ -20,9 +20,9 @@ module WebhookInbox
         return
       end
 
-      unless instance_exec(self, &auth)
-        render plain: "Unauthorized", status: :unauthorized
-      end
+      return if instance_exec(self, &auth)
+
+      render plain: "Unauthorized", status: :unauthorized
     end
   end
 end

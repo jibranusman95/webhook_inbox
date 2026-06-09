@@ -28,7 +28,10 @@ module WebhookInbox
         sig_header = request.env[SIG_HEADER]
         raise WebhookInbox::SignatureError, "Missing Stripe-Signature header" if sig_header.blank?
 
-        parts    = sig_header.split(",").filter_map { |p| p.split("=", 2) }.to_h
+        parts = sig_header.split(",").each_with_object({}) do |part, hash|
+          k, v = part.split("=", 2)
+          hash[k] = v if k && v
+        end
         timestamp = parts["t"]
         received  = parts["v1"]
 
@@ -37,9 +40,9 @@ module WebhookInbox
         signed_payload = "#{timestamp}.#{raw_body}"
         expected = OpenSSL::HMAC.hexdigest("SHA256", secret, signed_payload)
 
-        unless ActiveSupport::SecurityUtils.secure_compare(expected, received)
-          raise WebhookInbox::SignatureError, "Stripe signature verification failed"
-        end
+        return if ActiveSupport::SecurityUtils.secure_compare(expected, received)
+
+        raise WebhookInbox::SignatureError, "Stripe signature verification failed"
       end
     end
   end

@@ -27,6 +27,7 @@ module WebhookInbox
     def provider_for(name)
       klass = PROVIDERS[name.to_sym]
       raise UnknownProviderError, "Unknown provider: #{name}. Available: #{PROVIDERS.keys.join(', ')}" unless klass
+
       klass.new
     end
   end

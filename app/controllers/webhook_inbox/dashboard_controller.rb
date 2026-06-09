@@ -4,7 +4,7 @@ module WebhookInbox
   class DashboardController < ApplicationController
     def index
       @events = WebhookInbox::Event.order(created_at: :desc)
-      @events = @events.where(status: params[:status])   if params[:status].present?
+      @events = @events.where(status: params[:status]) if params[:status].present?
       @events = @events.where(provider: params[:provider]) if params[:provider].present?
       @events = @events.page(params[:page]).per(50) if @events.respond_to?(:page)
       @events = @events.limit(200) unless @events.respond_to?(:page)

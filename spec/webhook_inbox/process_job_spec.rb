@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 require "spec_helper"
-require "support/database"
-require "support/active_job"
 
 RSpec.describe WebhookInbox::ProcessJob do
   let(:config) { WebhookInbox::Configuration.new }
@@ -13,12 +11,12 @@ RSpec.describe WebhookInbox::ProcessJob do
 
   def create_event(attrs = {})
     WebhookInbox::Event.create!({
-      provider:   "stripe",
-      event_id:   "evt_#{SecureRandom.hex(4)}",
+      provider: "stripe",
+      event_id: "evt_#{SecureRandom.hex(4)}",
       event_type: "invoice.payment_succeeded",
-      payload:    '{"amount":1000}',
-      status:     "pending",
-      attempts:   0
+      payload: '{"amount":1000}',
+      status: "pending",
+      attempts: 0
     }.merge(attrs))
   end
 
@@ -72,7 +70,7 @@ RSpec.describe WebhookInbox::ProcessJob do
 
         described_class.new.perform(event.id)
 
-        expect(order).to eq([:first, :second])
+        expect(order).to eq(%i[first second])
       end
 
       it "calls wildcard handler alongside exact handler" do
@@ -110,10 +108,10 @@ RSpec.describe WebhookInbox::ProcessJob do
       end
 
       it "stores error_message" do
-        config.on(:stripe, "invoice.payment_succeeded") { raise RuntimeError, "handler exploded" }
+        config.on(:stripe, "invoice.payment_succeeded") { raise "handler exploded" }
         event = create_event
 
-        expect { described_class.new.perform(event.id) }.to raise_error
+        expect { described_class.new.perform(event.id) }.to raise_error(RuntimeError)
         expect(event.reload.error_message).to include("RuntimeError")
         expect(event.reload.error_message).to include("handler exploded")
       end

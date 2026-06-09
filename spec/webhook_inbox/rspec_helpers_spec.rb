@@ -59,9 +59,9 @@ RSpec.describe WebhookInbox::RSpecHelpers do
     end
 
     it "raises ArgumentError for an unknown provider" do
-      expect {
+      expect do
         helper.send(:build_webhook_headers, :github, "push", {}, event_id: nil, secret: "s")
-      }.to raise_error(ArgumentError, /github/)
+      end.to raise_error(ArgumentError, /github/)
     end
   end
 end

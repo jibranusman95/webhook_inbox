@@ -98,7 +98,7 @@ RSpec.describe WebhookInbox::Configuration do
 
   describe "dashboard_auth=" do
     it "stores the auth lambda" do
-      auth = ->(c) { c.admin? }
+      auth = lambda(&:admin?)
       config.dashboard_auth = auth
       expect(config.dashboard_auth).to eq(auth)
     end

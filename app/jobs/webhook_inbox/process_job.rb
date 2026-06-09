@@ -9,7 +9,7 @@ module WebhookInbox
     def perform(event_id)
       event = WebhookInbox::Event.find_by(id: event_id)
       unless event
-        Rails.logger.warn "[WebhookInbox] ProcessJob: event #{event_id} not found — skipping"
+        logger.warn "[WebhookInbox] ProcessJob: event #{event_id} not found — skipping"
         return
       end
 
@@ -20,7 +20,7 @@ module WebhookInbox
       handlers = WebhookInbox.configuration.handlers_for(event.provider, event.event_type)
 
       if handlers.empty?
-        Rails.logger.info "[WebhookInbox] No handlers registered for #{event.provider}:#{event.event_type}"
+        logger.info "[WebhookInbox] No handlers registered for #{event.provider}:#{event.event_type}"
       else
         handlers.each { |handler| handler.call(event) }
       end
@@ -28,7 +28,7 @@ module WebhookInbox
       event.update!(status: "processed", processed_at: Time.current, error_message: nil)
     rescue StandardError => e
       event&.update!(
-        status:        "failed",
+        status: "failed",
         error_message: "#{e.class}: #{e.message}\n#{e.backtrace&.first(5)&.join("\n")}"
       )
       raise # let ActiveJob retry_on handle re-enqueueing

@@ -4,48 +4,48 @@ require "spec_helper"
 
 RSpec.describe WebhookInbox do
   describe ".configure" do
-    after { WebhookInbox.configuration = nil }
+    after { described_class.configuration = nil }
 
     it "yields a Configuration object" do
-      WebhookInbox.configure do |config|
+      described_class.configure do |config|
         expect(config).to be_a(WebhookInbox::Configuration)
       end
     end
 
     it "stores the configuration" do
-      WebhookInbox.configure { |c| c.queue_name = "critical" }
-      expect(WebhookInbox.configuration.queue_name).to eq("critical")
+      described_class.configure { |c| c.queue_name = "critical" }
+      expect(described_class.configuration.queue_name).to eq("critical")
     end
 
     it "initializes a new configuration on first call" do
-      WebhookInbox.configuration = nil
-      WebhookInbox.configure {}
-      expect(WebhookInbox.configuration).to be_a(WebhookInbox::Configuration)
+      described_class.configuration = nil
+      described_class.configure {}
+      expect(described_class.configuration).to be_a(WebhookInbox::Configuration)
     end
 
     it "reuses existing configuration on subsequent calls" do
-      WebhookInbox.configure { |c| c.queue_name = "first" }
-      WebhookInbox.configure { |c| c.queue_name = "second" }
-      expect(WebhookInbox.configuration.queue_name).to eq("second")
+      described_class.configure { |c| c.queue_name = "first" }
+      described_class.configure { |c| c.queue_name = "second" }
+      expect(described_class.configuration.queue_name).to eq("second")
     end
   end
 
   describe ".provider_for" do
     it "returns a Stripe provider for :stripe" do
-      expect(WebhookInbox.provider_for(:stripe)).to be_a(WebhookInbox::Providers::Stripe)
+      expect(described_class.provider_for(:stripe)).to be_a(WebhookInbox::Providers::Stripe)
     end
 
     it "returns a Stripe provider for 'stripe' string" do
-      expect(WebhookInbox.provider_for("stripe")).to be_a(WebhookInbox::Providers::Stripe)
+      expect(described_class.provider_for("stripe")).to be_a(WebhookInbox::Providers::Stripe)
     end
 
     it "raises UnknownProviderError for an unregistered provider" do
-      expect { WebhookInbox.provider_for(:unknown_provider) }
+      expect { described_class.provider_for(:unknown_provider) }
         .to raise_error(WebhookInbox::UnknownProviderError, /unknown_provider/)
     end
 
     it "includes available provider names in the error message" do
-      expect { WebhookInbox.provider_for(:github) }
+      expect { described_class.provider_for(:github) }
         .to raise_error(WebhookInbox::UnknownProviderError, /stripe/)
     end
   end

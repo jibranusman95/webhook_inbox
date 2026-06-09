@@ -40,7 +40,7 @@ module WebhookInbox
       {
         body: body,
         headers: {
-          "CONTENT_TYPE"       => "application/json",
+          "CONTENT_TYPE" => "application/json",
           "HTTP_STRIPE_SIGNATURE" => "t=#{ts},v1=#{sig}"
         }
       }

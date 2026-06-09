@@ -14,7 +14,7 @@ module WebhookInbox
 
       def create_migration
         migration_template "create_webhook_inbox_events.rb.erb",
-          "db/migrate/create_webhook_inbox_events.rb"
+                           "db/migrate/create_webhook_inbox_events.rb"
       end
 
       def create_initializer

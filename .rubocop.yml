@@ -1,0 +1,83 @@
+plugins:
+  - rubocop-rspec
+
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.1
+  Exclude:
+    - "bin/**/*"
+    - "vendor/**/*"
+    - "pkg/**/*"
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+
+Metrics/MethodLength:
+  Max: 20
+
+Metrics/BlockLength:
+  Max: 40
+  Exclude:
+    - "spec/**/*"
+
+Metrics/ClassLength:
+  Max: 150
+
+Style/Documentation:
+  Enabled: false
+
+Naming/MethodParameterName:
+  MinNameLength: 1
+
+Naming/PredicateMethod:
+  Enabled: false
+
+RSpec/VerifiedDoubles:
+  Enabled: false
+
+RSpec/MessageSpies:
+  Enabled: false
+
+RSpec/IdenticalEqualityAssertion:
+  Enabled: false
+
+RSpec/StubbedMock:
+  Enabled: false
+
+Style/OpenStructUse:
+  Exclude:
+    - "spec/**/*"
+
+Lint/FloatComparison:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 35
+
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+Metrics/PerceivedComplexity:
+  Max: 12
+
+Metrics/ParameterLists:
+  Max: 7
+
+RSpec/SpecFilePathFormat:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Max: 5
+
+RSpec/ExampleLength:
+  Max: 15
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 10
+
+Lint/EmptyBlock:
+  Exclude:
+    - "spec/**/*"

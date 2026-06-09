@@ -22,6 +22,7 @@ module WebhookInbox
     # parsed_payload returns the payload as a Hash regardless of how it was stored
     def parsed_payload
       return payload if payload.is_a?(Hash)
+
       JSON.parse(payload)
     rescue JSON::ParserError
       {}

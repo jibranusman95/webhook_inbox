@@ -1,17 +1,15 @@
 # frozen_string_literal: true
 
 require "spec_helper"
-require "support/database"
-require "support/active_job"
 
 RSpec.describe WebhookInbox::Event do
   let(:valid_attrs) do
     {
-      provider:   "stripe",
-      event_id:   "evt_test_#{SecureRandom.hex(4)}",
+      provider: "stripe",
+      event_id: "evt_test_#{SecureRandom.hex(4)}",
       event_type: "customer.subscription.created",
-      payload:    JSON.generate({ id: "sub_123" }),
-      status:     "pending"
+      payload: JSON.generate({ id: "sub_123" }),
+      status: "pending"
     }
   end
 
@@ -108,6 +106,8 @@ RSpec.describe WebhookInbox::Event do
   end
 
   describe "#retry!" do
+    before { WebhookInbox.configuration = WebhookInbox::Configuration.new }
+
     it "resets status to pending" do
       event = described_class.create!(valid_attrs.merge(status: "failed", error_message: "boom"))
       event.retry!
@@ -123,7 +123,9 @@ RSpec.describe WebhookInbox::Event do
     it "enqueues ProcessJob" do
       WebhookInbox.configuration = WebhookInbox::Configuration.new
       event = described_class.create!(valid_attrs.merge(status: "failed"))
-      expect { event.retry! }.to have_enqueued_job(WebhookInbox::ProcessJob).with(event.id)
+      event.retry!
+      jobs = ActiveJob::Base.queue_adapter.enqueued_jobs
+      expect(jobs.any? { |j| j[:job] == WebhookInbox::ProcessJob && j[:args].first == event.id }).to be(true)
     end
   end
 end

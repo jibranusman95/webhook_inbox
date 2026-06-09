@@ -5,9 +5,9 @@ module WebhookInbox
     attr_accessor :queue_name, :dashboard_auth
 
     def initialize
-      @queue_name    = "webhooks"
+      @queue_name = "webhooks"
       @dashboard_auth = nil
-      @handlers      = {}
+      @handlers = {}
     end
 
     # Register a handler block for a given provider + event type.
@@ -17,6 +17,7 @@ module WebhookInbox
     #   config.on(:stripe, "*") { |event| ... }
     def on(provider, event_type, &block)
       raise ArgumentError, "Handler block required" unless block
+
       key = handler_key(provider, event_type)
       @handlers[key] ||= []
       @handlers[key] << block

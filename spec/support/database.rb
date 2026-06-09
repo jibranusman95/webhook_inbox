@@ -18,7 +18,7 @@ ActiveRecord::Schema.define do
     t.timestamps
   end
 
-  add_index :webhook_inbox_events, [:provider, :event_id], unique: true
+  add_index :webhook_inbox_events, %i[provider event_id], unique: true
   add_index :webhook_inbox_events, :status
   add_index :webhook_inbox_events, :created_at
 end

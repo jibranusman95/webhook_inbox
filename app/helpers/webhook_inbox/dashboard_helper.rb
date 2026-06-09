@@ -3,10 +3,10 @@
 module WebhookInbox
   module DashboardHelper
     STATUS_CLASSES = {
-      "pending"    => "badge-pending",
+      "pending" => "badge-pending",
       "processing" => "badge-processing",
-      "processed"  => "badge-processed",
-      "failed"     => "badge-failed"
+      "processed" => "badge-processed",
+      "failed" => "badge-failed"
     }.freeze
 
     def status_badge(status)
