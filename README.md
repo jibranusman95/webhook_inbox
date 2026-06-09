@@ -304,6 +304,7 @@ bundle exec rubocop
 
 | Gem | What it does |
 |-----|-------------|
+| [llm_cassette](https://github.com/jibranusman95/llm_cassette) | VCR for LLMs — streaming-aware cassette recorder for OpenAI and Anthropic |
 | [turbo_presence](https://github.com/jibranusman95/turbo_presence) | Figma-style live cursors, avatar stacks, and typing indicators for Rails — one line |
 | [http_decoy](https://github.com/jibranusman95/http_decoy) | A real Rack server that runs inside your RSpec tests — test HTTP contracts, not stubs |
 | [promptscrub](https://github.com/jibranusman95/promptscrub) | PII redaction middleware for LLM calls |
