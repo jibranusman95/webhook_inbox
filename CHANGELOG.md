@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] — 2026-06-09
+
+### Fixed
+
+- Corrected `required_ruby_version` to `>= 3.2.0` (Rails 8.x requires Ruby 3.2; the 3.1.0 floor in v0.1.0 was incorrect).
+- Dropped Ruby 3.1 from CI matrix; it is incompatible with Rails 8.x.
+- Removed `Gemfile.lock` from version control; gems should never pin their lockfile.
+
 ## [0.1.0] — 2026-06-09
 
 ### Added
