@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
 
   spec.summary = "Transactional inbox for Rails webhook receivers — deduplication, async processing, replay, and a dashboard."
   spec.description = "Drop-in Rails Engine that gives every app a production-ready webhook inbox. Signature verification, DB deduplication via unique constraint, async processing via ActiveJob, and a /webhook_inbox dashboard with replay. Provider adapters for Stripe (v0.1)."
-  spec.homepage = "https://github.com/jibranusman/webhook_inbox"
+  spec.homepage = "https://github.com/jibranusman95/webhook_inbox"
   spec.required_ruby_version = ">= 3.1.0"
 
   spec.metadata["homepage_uri"] = spec.homepage

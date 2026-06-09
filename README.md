@@ -2,7 +2,7 @@
 
 **Production-ready transactional inbox for Rails webhooks. Two lines.**
 
-[![CI](https://github.com/jibranusman/webhook_inbox/actions/workflows/ci.yml/badge.svg)](https://github.com/jibranusman/webhook_inbox/actions)
+[![CI](https://github.com/jibranusman95/webhook_inbox/actions/workflows/ci.yml/badge.svg)](https://github.com/jibranusman95/webhook_inbox/actions)
 [![Gem Version](https://badge.fury.io/rb/webhook_inbox.svg)](https://badge.fury.io/rb/webhook_inbox)
 [![Downloads](https://img.shields.io/gem/dt/webhook_inbox)](https://rubygems.org/gems/webhook_inbox)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
@@ -291,7 +291,7 @@ add_index :webhook_inbox_events, :created_at
 ## Contributing
 
 ```bash
-git clone https://github.com/jibranusman/webhook_inbox
+git clone https://github.com/jibranusman95/webhook_inbox
 cd webhook_inbox
 bundle install
 bundle exec rspec
