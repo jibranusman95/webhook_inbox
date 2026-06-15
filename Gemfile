@@ -9,7 +9,7 @@ gem "rake", "~> 13.0"
 
 # Test dependencies
 gem "rails", "~> 8.0"
-gem "rspec-rails", "~> 6.0"
+gem "rspec-rails", "~> 8.0"
 gem "rubocop", "~> 1.65", require: false
 gem "rubocop-rspec", require: false
 gem "simplecov", require: false
